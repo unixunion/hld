@@ -19,7 +19,7 @@
 namespace org.kindred.hwn
 
 /**
- * a person 
+ * a person / individual
  */
 participant IndividualParticipant identified by participantId {
   o String participantId
@@ -31,7 +31,7 @@ participant IndividualParticipant identified by participantId {
 }
 
 /**
- * A account asset.
+ * A asset.
  */
 asset AccountBalanceAsset identified by id {
   o String id

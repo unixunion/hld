@@ -404,7 +404,7 @@ describe('#' + namespace, () => {
         event.newBalance.should.equal(0);
     });
 
-    it('Bob cannot debit her Alice\'s accounts', async () => {
+    it('Bob cannot debit Alice\'s accounts', async () => {
         // Use the identity for Alice.
         await useIdentity(bobCardName);
 
