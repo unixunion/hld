@@ -279,7 +279,7 @@ describe('#' + namespace, () => {
 
     });
 
-    it('Alice can create an account balance', async () => {
+    it('Alice can not update her own balance balance directly', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
@@ -290,15 +290,10 @@ describe('#' + namespace, () => {
 
         // Update the asset, then get the asset.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
-        await assetRegistry.update(asset1);
-
-        // Validate the asset.
-        asset1 = await assetRegistry.get('1');
-        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
-        asset1.balance.should.equal(50);
+        assetRegistry.update(asset1).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Alice cannot update Bob\'s account balance', async () => {
+    it('Alice cannot update Bob\'s account balance directly', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
@@ -312,7 +307,7 @@ describe('#' + namespace, () => {
         assetRegistry.update(asset2).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can update his account balance', async () => {
+    it('Bob cannot update his own account balance directly', async () => {
         // Use the identity for Bob.
         await useIdentity(bobCardName);
 
@@ -323,15 +318,10 @@ describe('#' + namespace, () => {
 
         // Update the asset, then get the asset.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
-        await assetRegistry.update(asset2);
-
-        // Validate the asset.
-        asset2 = await assetRegistry.get('2');
-        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
-        asset2.balance.should.equal(60);
+        assetRegistry.update(asset2).should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob cannot update Alice\'s assets', async () => {
+    it('Bob cannot modify Alice\'s account balance directly', async () => {
         // Use the identity for Bob.
         await useIdentity(bobCardName);
 
@@ -346,18 +336,18 @@ describe('#' + namespace, () => {
 
     });
 
-    it('Alice can remove her assets', async () => {
+    it('Alice cannot remove her account asset', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
-        await assetRegistry.remove('1');
-        const exists = await assetRegistry.exists('1');
-        exists.should.be.false;
+        assetRegistry.remove('1').should.be.rejectedWith(/does not have .* access to resource/);
+        // const exists = await assetRegistry.exists('1');
+        // exists.should.be.false;
     });
 
-    it('Alice cannot remove Bob\'s assets', async () => {
+    it('Alice cannot remove Bob\'s account asset', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
@@ -366,15 +356,13 @@ describe('#' + namespace, () => {
         assetRegistry.remove('2').should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Bob can remove his assets', async () => {
+    it('Bob cannot remove his account assets', async () => {
         // Use the identity for Bob.
         await useIdentity(bobCardName);
 
         // Remove the asset, then test the asset exists.
         const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
-        await assetRegistry.remove('2');
-        const exists = await assetRegistry.exists('2');
-        exists.should.be.false;
+        assetRegistry.remove('2').should.be.rejectedWith(/does not have .* access to resource/);
     });
 
     it('Bob cannot remove Alice\'s assets', async () => {
@@ -386,7 +374,7 @@ describe('#' + namespace, () => {
         assetRegistry.remove('1').should.be.rejectedWith(/does not have .* access to resource/);
     });
 
-    it('Alice can debit her accounts', async () => {
+    it('Alice can debit her own accounts', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
