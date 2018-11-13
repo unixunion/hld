@@ -1,0 +1,78 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.kindred.hwn
+
+/**
+ * a person 
+ */
+participant IndividualParticipant identified by participantId {
+  o String participantId
+  o String firstName
+  o String lastName
+  o DateTime dob
+  o String identityNumber
+  o Long creditLimit default=1000
+}
+
+/**
+ * A account asset.
+ */
+asset AccountBalanceAsset identified by id {
+  o String id
+  --> IndividualParticipant owner
+  o Long balance
+}
+ 
+/**
+ * debit transaction
+ */
+transaction DebitTransaction {
+  --> AccountBalanceAsset asset
+  o Long amount
+}
+
+/**
+ * credit transaction
+ */
+transaction CreditTransaction {
+  --> AccountBalanceAsset asset
+  o Long amount
+}
+
+
+/**
+ * transfer transaction
+ */
+transaction TransferTransaction {
+  --> AccountBalanceAsset accountFrom
+  --> AccountBalanceAsset accountTo
+  o Long amount
+}
+
+
+/**
+ * event emitter
+ */
+event BalanceChangedEvent {
+  --> AccountBalanceAsset asset
+  o Long oldBalance
+  o Long newBalance
+}
+
+
