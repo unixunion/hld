@@ -2,11 +2,11 @@
   "engines": {
     "composer": "^0.20.4"
   },
-  "name": "hello-world-network",
+  "name": "hld",
   "version": "0.0.5",
-  "description": "testing 2",
+  "description": "Hyperledger Demo",
   "scripts": {
-    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/hello-world-network.bna",
+    "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/hld.bna",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "test": "nyc mocha -t 0 test/*.js && cucumber-js"
