@@ -526,6 +526,31 @@ describe('#' + namespace, () => {
         event2.newBalance.should.equal(30);
     });
 
+    it('Alice cannot transfer more than she has to Bobs account', async () => {
+        // Use the identity for Alice.
+        await useIdentity(aliceCardName);
+
+        // Submit the transaction.
+        const transaction = factory.newTransaction(namespace, transferTransactionName);
+        transaction.accountFrom = factory.newRelationship(namespace, assetType, '1');
+        transaction.accountTo = factory.newRelationship(namespace, assetType, '2');
+        transaction.amount = 100;
+        businessNetworkConnection.submitTransaction(transaction).should.be.rejectedWith(/insufficient funds/);
+
+        // Get the asset.
+        const assetRegistry = await businessNetworkConnection.getAssetRegistry(assetNS);
+
+        // Validate the asset is 10
+        const asset1 = await assetRegistry.get('1');
+        asset1.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#alice@email.com');
+        asset1.balance.should.equal(10);
+
+        // validate bob still has 20
+        const asset2= await assetRegistry.get('2');
+        asset2.owner.getFullyQualifiedIdentifier().should.equal(participantNS + '#bob@email.com');
+        asset2.balance.should.equal(20);
+    });
+
 
     it('Alice cannot transfer from Bobs account to her own', async () => {
         // Use the identity for Alice.
