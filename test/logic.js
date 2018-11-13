@@ -579,7 +579,7 @@ describe('#' + namespace, () => {
     });
 
 
-    it('Alice cannot exceed credit limit', async () => {
+    it('Alice cannot exceed her credit limit', async () => {
         // Use the identity for Alice.
         await useIdentity(aliceCardName);
 
