@@ -17,63 +17,63 @@
  */
 rule EverybodyCanReadEverything {
     description: "Allow all participants read access to all resources"
-    participant: "org.kindred.hwn.IndividualParticipant"
+    participant: "org.kindred.hldemo.IndividualParticipant"
     operation: READ
-    resource: "org.kindred.hwn.*"
+    resource: "org.kindred.hldemo.*"
     action: ALLOW
 }
 
 rule EverybodyCanDebitTransactions {
     description: "Allow all participants to submit transactions"
-    participant: "org.kindred.hwn.IndividualParticipant"
+    participant: "org.kindred.hldemo.IndividualParticipant"
     operation: CREATE
-    resource: "org.kindred.hwn.DebitTransaction"
+    resource: "org.kindred.hldemo.DebitTransaction"
     action: ALLOW
 }
 
 rule EverybodyCanCreditTransactions {
     description: "Allow all participants to credit transactions"
-    participant: "org.kindred.hwn.IndividualParticipant"
+    participant: "org.kindred.hldemo.IndividualParticipant"
     operation: CREATE
-    resource: "org.kindred.hwn.CreditTransaction"
+    resource: "org.kindred.hldemo.CreditTransaction"
     action: ALLOW
 }
 
 rule EverybodyCanTransferTransactions {
     description: "Allow all participants to transfer"
-    participant: "org.kindred.hwn.IndividualParticipant"
+    participant: "org.kindred.hldemo.IndividualParticipant"
     operation: CREATE
-    resource: "org.kindred.hwn.TransferTransaction"
+    resource: "org.kindred.hldemo.TransferTransaction"
     action: ALLOW
 }
 
 
 rule TransfersCanUpdateOtherAccounts {
     description: "Allow all transfers to move money to other people"
-    participant(p): "org.kindred.hwn.IndividualParticipant"
+    participant(p): "org.kindred.hldemo.IndividualParticipant"
     operation: UPDATE
-    resource(r): "org.kindred.hwn.AccountBalanceAsset"
-    transaction(tx): "org.kindred.hwn.TransferTransaction"
+    resource(r): "org.kindred.hldemo.AccountBalanceAsset"
+    transaction(tx): "org.kindred.hldemo.TransferTransaction"
     condition: (tx.amount>=0 && tx.accountFrom.owner.getIdentifier() === p.getIdentifier() )
     action: ALLOW
 }
 
 rule CreditTransactionsCanUpdateAccounts {
     description: "Allow credit transactions to update accounts"
-    participant(p): "org.kindred.hwn.IndividualParticipant"
+    participant(p): "org.kindred.hldemo.IndividualParticipant"
     operation: UPDATE
-    resource(r): "org.kindred.hwn.AccountBalanceAsset"
-    transaction(tx): "org.kindred.hwn.CreditTransaction"
+    resource(r): "org.kindred.hldemo.AccountBalanceAsset"
+    transaction(tx): "org.kindred.hldemo.CreditTransaction"
     condition: (tx.asset.owner.getIdentifier() === p.getIdentifier() )
     action: ALLOW
 }
 
 rule DeditTransactionsCanUpdateAccounts {
     description: "Allow debit transactions to update accounts"
-    participant(p): "org.kindred.hwn.IndividualParticipant"
+    participant(p): "org.kindred.hldemo.IndividualParticipant"
     operation: UPDATE
-    resource(r): "org.kindred.hwn.AccountBalanceAsset"
-    transaction(tx): "org.kindred.hwn.DebitTransaction"
+    resource(r): "org.kindred.hldemo.AccountBalanceAsset"
+    transaction(tx): "org.kindred.hldemo.DebitTransaction"
     condition: (tx.asset.owner.getIdentifier() === p.getIdentifier() )
     action: ALLOW
 }
@@ -81,9 +81,9 @@ rule DeditTransactionsCanUpdateAccounts {
 
 rule OwnerHasFullAccessToTheirAssets {
     description: "Allow all participants full access to their assets"
-    participant(p): "org.kindred.hwn.IndividualParticipant"
+    participant(p): "org.kindred.hldemo.IndividualParticipant"
     operation: CREATE
-    resource(r): "org.kindred.hwn.AccountBalanceAsset"
+    resource(r): "org.kindred.hldemo.AccountBalanceAsset"
     condition: (r.owner.getIdentifier() === p.getIdentifier())
     action: ALLOW
 }

@@ -26,7 +26,7 @@ const chai = require('chai');
 chai.should();
 chai.use(require('chai-as-promised'));
 
-const namespace = 'org.kindred.hwn';
+const namespace = 'org.kindred.hldemo';
 const assetType = 'AccountBalanceAsset';
 const debitTransactionName = 'DebitTransaction';
 const creditTransactionName = 'CreditTransaction';

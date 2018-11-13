@@ -16,7 +16,7 @@
  * Write your model definitions here
  */
 
-namespace org.kindred.hwn
+namespace org.kindred.hldemo
 
 /**
  * a person / individual
