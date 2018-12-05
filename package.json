@@ -3,7 +3,7 @@
     "composer": "^0.20.4"
   },
   "name": "hld",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Hyperledger Demo",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/hld.bna",
